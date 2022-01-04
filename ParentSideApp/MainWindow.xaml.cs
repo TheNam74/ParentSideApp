@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ParentSideApp
 {
@@ -20,9 +9,37 @@ namespace ParentSideApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        static public List<CFolder> HistoryFolder = new List<CFolder>();
+        static public List<CTime> TimeLine = new List<CTime>();
+        static public CFolder SyncronizeFolder = new CFolder(@"C:\Users\Tran Toan\OneDrive - VNU-HCMUS\he dieu hanh\thuc muc sync");
         public MainWindow()
         {
+            string[] folderStrings = Directory.GetDirectories(SyncronizeFolder.Path, "*", SearchOption.AllDirectories);
+            foreach (var folder in folderStrings)
+            {
+                var temp = new CFolder(folder);
+                HistoryFolder.Add(temp);
+            }
             InitializeComponent();
+        }
+
+        private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            LoginWindow loginView = new LoginWindow(this);
+            loginView.ShowDialog();
+        }
+
+        private void History_OnClick(object sender, RoutedEventArgs e)
+        {
+            HistoryView historyWindow = new HistoryView();
+            historyWindow.ShowDialog();
+        }
+
+        private void EditTimeBtn_OnClick(object sender, RoutedEventArgs e)
+        {
+            TimeLineListView editTimeLineWindow = new TimeLineListView();
+            editTimeLineWindow.ShowDialog();
         }
     }
 }

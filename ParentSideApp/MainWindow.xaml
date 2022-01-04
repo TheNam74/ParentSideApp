@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ParentSideApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="450" Width="800" Loaded="MainWindow_OnLoaded">
+    <Canvas>
+        <Button Content="See history" Canvas.Left="360" Canvas.Top="69" RenderTransformOrigin="0.519,0.503" Name="History" Click="History_OnClick"></Button>
+        <Button Content="Edit Time Line" Canvas.Left="360" Canvas.Top="117" RenderTransformOrigin="0.519,0.503" Name="EditTimeBtn" Click="EditTimeBtn_OnClick"></Button>
+    </Canvas>
 </Window>

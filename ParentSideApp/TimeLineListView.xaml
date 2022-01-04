@@ -1,0 +1,51 @@
+﻿<Window x:Class="ParentSideApp.TimeLineListView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ParentSideApp"
+        mc:Ignorable="d"
+        Title="TimeLineListView" Height="450" Width="800" Loaded="TimeLineListView_OnLoaded">
+    <Canvas>
+        <ListView Margin="10" Name="TimeLineList" Height="300">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="From" Width="150" DisplayMemberBinding="{Binding From}" />
+                    <GridViewColumn Header="To" Width="150" DisplayMemberBinding="{Binding To}" />
+                    <GridViewColumn Header="Duration" Width="150" DisplayMemberBinding="{Binding Duration}" />
+                    <GridViewColumn Header="Interupt" Width="150" DisplayMemberBinding="{Binding Interupt}" />
+                    <GridViewColumn Header="Sum" Width="150" DisplayMemberBinding="{Binding Sum}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Orientation="Vertical" Canvas.Top="346" Canvas.Left="41">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Name="LabelFrom">From</Label>
+                    <TextBox Name="InputFromHours" Width="50"></TextBox>
+                    <TextBlock>h</TextBlock>
+                    <TextBox Name="InputFromMinutes" Width="50"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Name="LabelTo">To</Label>
+                    <TextBox Name="InputToHours" Width="50"></TextBox>
+                    <TextBlock>h</TextBlock>
+                    <TextBox Name="InputToMinutes" Width="50"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Name="LabelDuration">Duration</Label>
+                    <TextBox Name="InputDuration" Width="50"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Name="LabelInterrupt">Interrupt</Label>
+                    <TextBox Name="InputInterrupt" Width="50"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Name="LabelSum">Duration</Label>
+                    <TextBox Name="InputSum" Width="50"></TextBox>
+                </StackPanel>
+            </StackPanel>
+            <Button Name="AddTimeLine" Click="AddTimeLine_OnClick" HorizontalAlignment="Center">Add time line</Button>
+        </StackPanel>
+    </Canvas>
+</Window>
