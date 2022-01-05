@@ -1,18 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 
 namespace ParentSideApp
 {
-    public class CTime
+    public class CTime : INotifyPropertyChanged
     {
-        public CTime(int hour, int minute, int hour2, int minute2, int duration, int interupt, int sum)
-        {
-            To = new Interval(hour2, minute2);
-            From = new Interval(hour, minute);
-            this.Duration = duration;
-            this.Interupt = interupt;
-            this.Sum = sum;
-        }
-
         public CTime(string inputLine)
         {
             string[] time = inputLine.Split(' ');
@@ -22,6 +16,9 @@ namespace ParentSideApp
             to[0] = to[0].Remove(0, 1);
             To = new Interval(Int32.Parse(to[0]), Int32.Parse(to[1]));
             From = new Interval(Int32.Parse(from[0]), Int32.Parse(from[1]));
+            Duration = 0;
+            Sum = 0;
+            Interupt = 0;
             if (time.Length == 2) return;
             int i = 2;
             if (time[i].StartsWith("D"))
@@ -44,9 +41,56 @@ namespace ParentSideApp
             Sum = Int32.Parse(time[i]);
 
         }
+
+        public CTime()
+        {
+            From = new Interval();
+            To = new Interval();
+        }
         public override string ToString()
         {
             return From.Hour + "h" + From.Minute + " - " + To.Hour + "h" + To.Minute;
+        }
+
+        public string TextToSave()
+        {
+            string result = "";
+            result += "F" + From.Hour.ToString("00") + ":" + From.Minute.ToString("00");
+            result += " ";
+            result += "T" + To.Hour.ToString("00") + ":" + To.Minute.ToString("00");
+            if (Duration != 0)
+            {
+                result += " D" + Duration;
+            }
+            if (Interupt != 0)
+            {
+                result += " I" + Interupt;
+            }
+            if (Sum != 0)
+            {
+                result += " S" + Sum;
+            }
+            return result;
+        }
+        public CTime Clone()
+        {
+            var result = new CTime
+            {
+                From =
+                {
+                    Hour = From.Hour,
+                    Minute = From.Minute
+                },
+                To =
+                {
+                    Hour = To.Hour,
+                    Minute = To.Minute
+                },
+                Duration = Duration,
+                Interupt = Interupt,
+                Sum = Sum
+            };
+            return result;
         }
 
         public Interval From { get; set; }
@@ -81,13 +125,54 @@ namespace ParentSideApp
             }
             return false;
         }
+
+        public static bool InTime(List<CTime> timeLines, CTime newTime, int startedIndex = -1)
+        {
+            int i = 0;
+            foreach (var timeLine in timeLines)
+            {
+                if (i == startedIndex) continue;
+                if (newTime.From.IsGreaterOrEqual(timeLine.From) && !newTime.From.IsGreaterOrEqual(timeLine.To))
+                    return true;
+                if (newTime.To.IsGreaterOrEqual(timeLine.From) && !newTime.To.IsGreaterOrEqual(timeLine.To))
+                    return true;
+                if (timeLine.From.IsGreaterOrEqual(newTime.From) && newTime.To.IsGreaterOrEqual(timeLine.To))
+                    return true;
+                i++;
+            }
+            return false;
+        }
+        public static bool WriteDownTheSchedule(string path, List<CTime> list)
+        {
+            int i = 0;
+            StreamWriter sw = new StreamWriter(path);
+            foreach (var item in list)
+            {
+                string tempLine = item.TextToSave();
+                i++;
+                if (i != list.Count)
+                {
+                    tempLine += "\n";
+                }
+                sw.Write(tempLine);
+            }
+            sw.Close();
+            return true;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
-    public class Interval
+    public class Interval : INotifyPropertyChanged
     {
         public Interval(int hour, int minute)
         {
             this.Hour = hour;
             this.Minute = minute;
+        }
+
+        public Interval()
+        {
+
         }
 
         public Interval(string fileName)
@@ -103,5 +188,18 @@ namespace ParentSideApp
         {
             return Hour + "h" + Minute;
         }
+
+        public bool IsGreaterOrEqual(Interval secondInterval)
+        {
+            if (Hour > secondInterval.Hour) return true;
+            if (Hour == secondInterval.Hour)
+            {
+                if (Minute >= secondInterval.Minute) return true;
+            }
+
+            return false;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

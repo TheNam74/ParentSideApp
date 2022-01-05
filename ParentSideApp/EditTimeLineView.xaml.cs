@@ -1,48 +1,33 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 
 namespace ParentSideApp
 {
     /// <summary>
-    /// Interaction logic for TimeLineListView.xaml
+    /// Interaction logic for EditTimeLineView.xaml
     /// </summary>
-    public partial class TimeLineListView : Window, INotifyPropertyChanged
+    public partial class EditTimeLineView : Window
     {
-        public string SchedulePath = MainWindow.SyncronizeFolder.Path + @"\" + "schedule.txt";
-        public static BindingList<CTime> BindingCTimeList = new BindingList<CTime>();
-        public TimeLineListView()
+        public static CTime EditedCTime;
+        public int SelectedIndex;
+        public EditTimeLineView(int selectedTime)
         {
+            SelectedIndex = selectedTime;
+            EditedCTime = TimeLineListView.BindingCTimeList[selectedTime].Clone();
             InitializeComponent();
-            BindingCTimeList.Clear();
+            CurrentValue.DataContext = EditedCTime;
         }
 
-        private void TimeLineListView_OnLoaded(object sender, RoutedEventArgs e)
+        private void Confirm_OnClick(object sender, RoutedEventArgs e)
         {
-            string[] lines = System.IO.File.ReadAllLines(SchedulePath);
-            foreach (var line in lines)
-            {
-                BindingCTimeList.Add(new CTime(line));
-            }
-
-            TimeLineList.ItemsSource = BindingCTimeList;
-        }
-
-        private void AddTimeLine_OnClick(object sender, RoutedEventArgs e)
-        {
-
-            CTime newTime = new CTime();
             bool flag = true;
-            if (InputFromHours.Text == "" || InputFromMinutes.Text == "" || InputToHours.Text == "" ||
-                InputToMinutes.Text == "") return;
             if (InputFromHours.Text != "")
             {
                 int newValue = Int32.Parse(InputFromHours.Text);
                 if (0 <= newValue && newValue <= 24)
                 {
-                    newTime.From.Hour = newValue;
-                    InputFromHours.Text = "";
+                    EditedCTime.From.Hour = newValue;
                 }
                 else
                 {
@@ -55,8 +40,7 @@ namespace ParentSideApp
                 int newValue = Int32.Parse(InputFromMinutes.Text);
                 if (0 <= newValue && newValue <= 60)
                 {
-                    newTime.From.Minute = newValue;
-                    InputFromHours.Text = "";
+                    EditedCTime.From.Minute = newValue;
                 }
                 else
                 {
@@ -69,8 +53,7 @@ namespace ParentSideApp
                 int newValue = Int32.Parse(InputToHours.Text);
                 if (0 <= newValue && newValue <= 24)
                 {
-                    newTime.To.Hour = newValue;
-                    InputToHours.Text = "";
+                    EditedCTime.To.Hour = newValue;
                 }
                 else
                 {
@@ -83,8 +66,7 @@ namespace ParentSideApp
                 int newValue = Int32.Parse(InputToMinutes.Text);
                 if (0 <= newValue && newValue <= 60)
                 {
-                    newTime.To.Minute = newValue;
-                    InputToMinutes.Text = "";
+                    EditedCTime.To.Minute = newValue;
                 }
                 else
                 {
@@ -97,8 +79,7 @@ namespace ParentSideApp
                 int newValue = Int32.Parse(InputDuration.Text);
                 if (newValue >= 0)
                 {
-                    newTime.Duration = Int32.Parse(InputDuration.Text);
-                    InputDuration.Text = "";
+                    EditedCTime.Duration = Int32.Parse(InputDuration.Text);
                 }
                 else
                 {
@@ -111,8 +92,7 @@ namespace ParentSideApp
                 int newValue = Int32.Parse(InputInterrupt.Text);
                 if (newValue >= 0)
                 {
-                    newTime.Interupt = newValue;
-                    InputInterrupt.Text = "";
+                    EditedCTime.Interupt = newValue;
                 }
                 else
                 {
@@ -125,8 +105,7 @@ namespace ParentSideApp
                 int newValue = Int32.Parse(InputSum.Text);
                 if (newValue >= 0)
                 {
-                    newTime.Sum = newValue;
-                    InputSum.Text = "";
+                    EditedCTime.Sum = newValue;
                 }
                 else
                 {
@@ -135,39 +114,16 @@ namespace ParentSideApp
                 }
             }
 
-            if (CTime.InTime(BindingCTimeList.ToList(), newTime))
+            if (!CTime.InTime(TimeLineListView.BindingCTimeList.ToList(), EditedCTime, SelectedIndex))
             {
-                flag = false;
+                this.DialogResult = true;
             }
-
-            if (flag)
-            {
-                int i = 0;
-                foreach (var item in BindingCTimeList)
-                {
-                    if (item.From.IsGreaterOrEqual(newTime.From))
-                    {
-                        break;
-                    }
-                    i++;
-                }
-                BindingCTimeList.Insert(i, newTime);
-                CTime.WriteDownTheSchedule(SchedulePath, BindingCTimeList.ToList());
-            }
+            if (flag) this.Close();
         }
 
-        private void editBtnOnclick(object sender, RoutedEventArgs e)
+        private void Cancel_OnClick(object sender, RoutedEventArgs e)
         {
-            int index = TimeLineList.SelectedIndex;
-            EditTimeLineView editView = new EditTimeLineView(index);
-            if (editView.ShowDialog() == true)
-            {
-                BindingCTimeList[index] = EditTimeLineView.EditedCTime;
-                BindingCTimeList.ResetBindings();
-                CTime.WriteDownTheSchedule(SchedulePath, BindingCTimeList.ToList());
-            }
+            this.Close();
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }

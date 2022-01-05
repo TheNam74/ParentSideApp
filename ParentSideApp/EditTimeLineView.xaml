@@ -1,34 +1,38 @@
-﻿<Window x:Class="ParentSideApp.TimeLineListView"
+﻿<Window x:Class="ParentSideApp.EditTimeLineView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ParentSideApp"
         mc:Ignorable="d"
-        Title="TimeLineListView" Height="450" Width="800" Loaded="TimeLineListView_OnLoaded">
+        Title="EditTimeLineView" Height="450" Width="800">
     <Canvas>
-        <ListView Name="TimeLineList" Margin="10" Height="300">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="From" Width="150" DisplayMemberBinding="{Binding From}" />
-                    <GridViewColumn Header="To" Width="150" DisplayMemberBinding="{Binding To}" />
-                    <GridViewColumn Header="Duration" Width="150" DisplayMemberBinding="{Binding Duration}" />
-                    <GridViewColumn Header="Interrupt" Width="150" DisplayMemberBinding="{Binding Interupt}" />
-                    <GridViewColumn Header="Sum" Width="150" DisplayMemberBinding="{Binding Sum}" />
-                </GridView>
-            </ListView.View>
-            <ListView.Resources>
-                <ContextMenu x:Key="ItemContextMenu">
-                    <MenuItem Header="Edit" Name="editBtn" Click="editBtnOnclick"/>
-                </ContextMenu>
-            </ListView.Resources>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}" >
-                    <Setter Property="ContextMenu" Value="{StaticResource ItemContextMenu}" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-        <StackPanel Orientation="Vertical" Canvas.Top="346" Canvas.Left="41" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Orientation="Vertical" Canvas.Top="24" Canvas.Left="73" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Orientation="Horizontal" Name="CurrentValue">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="From"/>
+                    <TextBlock Width="50" Text="{Binding From}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="To"/>
+                    <TextBlock Width="50" Text="{Binding To}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Duration"/>
+                    <TextBlock Width="50" Text="{Binding Duration}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Interrupt"/>
+                    <TextBlock Width="50" Text="{Binding Interupt}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Sum"/>
+                    <TextBlock Width="50" Text="{Binding Sum}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Canvas.Top="69" Canvas.Left="74" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal" Margin="5">
                     <Label Name="LabelFrom">From</Label>
@@ -51,11 +55,13 @@
                     <TextBox Name="InputInterrupt" Width="50" VerticalContentAlignment="Center"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5">
-                    <Label Name="LabelSum">Sum</Label>
+                    <Label Name="LabelSum">Duration</Label>
                     <TextBox Name="InputSum" Width="50" VerticalContentAlignment="Center"></TextBox>
                 </StackPanel>
             </StackPanel>
-            <Button Name="AddTimeLine" Click="AddTimeLine_OnClick" HorizontalAlignment="Center">Add time line</Button>
         </StackPanel>
+        <Button Name="Cancel" Click="Cancel_OnClick"  HorizontalAlignment="Center" Canvas.Left="465" Canvas.Top="128">Cancel</Button>
+        <Button Name="Confirm" Click="Confirm_OnClick"  HorizontalAlignment="Center" Canvas.Left="262" Canvas.Top="128">Edit confirm</Button>
+
     </Canvas>
 </Window>

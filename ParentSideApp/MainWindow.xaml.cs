@@ -9,9 +9,9 @@ namespace ParentSideApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        static public List<CFolder> HistoryFolder = new List<CFolder>();
-        static public List<CTime> TimeLine = new List<CTime>();
-        static public CFolder SyncronizeFolder = new CFolder(@"C:\Users\Tran Toan\OneDrive - VNU-HCMUS\he dieu hanh\thuc muc sync");
+        public static List<CFolder> HistoryFolder = new List<CFolder>();
+        public static List<CTime> TimeLine = new List<CTime>();
+        public static CFolder SyncronizeFolder = new CFolder(@"C:\Users\Tran Toan\OneDrive - VNU-HCMUS\he dieu hanh\thuc muc sync");
         public MainWindow()
         {
             string[] folderStrings = Directory.GetDirectories(SyncronizeFolder.Path, "*", SearchOption.AllDirectories);
