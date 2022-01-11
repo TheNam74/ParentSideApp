@@ -9,6 +9,7 @@ namespace ParentSideApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static int UserAccount = -1;
         public static List<CFolder> HistoryFolder = new List<CFolder>();
         public static List<CTime> TimeLine = new List<CTime>();
         public static CFolder SyncronizeFolder = new CFolder(@"C:\Users\Tran Toan\OneDrive - VNU-HCMUS\he dieu hanh\thuc muc sync");

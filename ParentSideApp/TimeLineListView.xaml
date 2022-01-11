@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="TimeLineListView" Height="450" Width="800" Loaded="TimeLineListView_OnLoaded">
     <Canvas>
-        <ListView Name="TimeLineList" Margin="10" Height="300">
+        <ListView Name="TimeLineList" Height="300" Canvas.Left="10" Canvas.Top="34">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="From" Width="150" DisplayMemberBinding="{Binding From}" />
@@ -20,6 +20,7 @@
             <ListView.Resources>
                 <ContextMenu x:Key="ItemContextMenu">
                     <MenuItem Header="Edit" Name="editBtn" Click="editBtnOnclick"/>
+                    <MenuItem Header="Delete" Name="deleteBtn" Click="deleteBtnOnclick"/>
                 </ContextMenu>
             </ListView.Resources>
             <ListView.ItemContainerStyle>
@@ -57,5 +58,6 @@
             </StackPanel>
             <Button Name="AddTimeLine" Click="AddTimeLine_OnClick" HorizontalAlignment="Center">Add time line</Button>
         </StackPanel>
+        <Button Content="Refresh list" Name="RefreshTimeLine" Click="RefreshTimeLine_OnClick" Canvas.Left="685" Width="75" Canvas.Top="10"/>
     </Canvas>
 </Window>

@@ -10,7 +10,7 @@
         <Label Content="Username" Canvas.Left="355" Canvas.Top="123"></Label>
         <TextBox Width="100" Height="auto" Canvas.Left="336" Canvas.Top="154" Name="usernameTextBox"></TextBox>
         <Label Content="Password"  Canvas.Left="355" Canvas.Top="177"></Label>
-        <PasswordBox Width="100" Height="auto" Canvas.Left="336" Canvas.Top="207"></PasswordBox>
-        <Button Content="Login" Canvas.Left="370" Canvas.Top="242" Name="loginBtn" Click="LoginBtn_OnClick"></Button>
+        <PasswordBox Width="100" Height="auto" Canvas.Left="336" Canvas.Top="207" Name="PasswordTextBox"></PasswordBox>
+        <Button Content="Login" Canvas.Left="370" Canvas.Top="242" Name="loginBtn" IsDefault="True" Click="LoginBtn_OnClick"></Button>
     </Canvas>
 </Window>

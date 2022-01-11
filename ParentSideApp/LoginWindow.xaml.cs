@@ -17,8 +17,16 @@ namespace ParentSideApp
 
         private void LoginBtn_OnClick(object sender, RoutedEventArgs e)
         {
-            if (usernameTextBox.Text == "123")
+            if ((usernameTextBox.Text == "parent1" && PasswordTextBox.Password == "321") || (usernameTextBox.Text == "parent2" && PasswordTextBox.Password == "345"))
             {
+                if (usernameTextBox.Text == "parent1")
+                {
+                    MainWindow.UserAccount = 0;
+                }
+                else
+                {
+                    MainWindow.UserAccount = 1;
+                }
                 Flag = true;
                 this.Close();
                 _mainwindowView.Show();
