@@ -42,6 +42,15 @@ namespace ParentSideApp
 
         }
 
+        public CTime(int Hour, int Minute, int Hour2, int Minute2, int Duration, int Interupt, int Sum)
+        {
+            To = new Interval(Hour2, Minute2);
+            From = new Interval(Hour, Minute);
+            this.Duration = Duration;
+            this.Interupt = Interupt;
+            this.Sum = Sum;
+        }
+
         public CTime()
         {
             From = new Interval();

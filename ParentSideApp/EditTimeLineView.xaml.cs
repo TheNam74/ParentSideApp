@@ -15,6 +15,7 @@ namespace ParentSideApp
 
         public EditTimeLineView(int selectedTime)
         {
+            //khoi tao cua so editview voi timeline duoc chon tu cua so timeLineListView
             SelectedIndex = selectedTime;
             EditedCTime = TimeLineListView.BindingCTimeList[selectedTime].Clone();
             InitializeComponent();
@@ -23,7 +24,11 @@ namespace ParentSideApp
 
         private void Confirm_OnClick(object sender, RoutedEventArgs e)
         {
+
+
             bool flag = true;
+
+            //Kiem tra cac thong so nhap vao da hop len chua, neu hop le luu vao bien tam
             if (InputFromHours.Text != "")
             {
                 int newValue = Int32.Parse(InputFromHours.Text);
@@ -116,6 +121,7 @@ namespace ParentSideApp
                 }
             }
 
+            //kiem tra thong so sau khi chinh sua co bi dung do ve mat thoi gian khong, neu khong thi xac nhan chinh sua
             if (!CTime.InTime(TimeLineListView.BindingCTimeList.ToList(), EditedCTime, SelectedIndex))
             {
                 this.DialogResult = true;

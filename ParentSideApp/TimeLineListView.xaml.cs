@@ -15,6 +15,7 @@ namespace ParentSideApp
         public string PetersonPath = MainWindow.SyncronizeFolder.Path + @"\" + "peterson.txt";
         public string SchedulePath = MainWindow.SyncronizeFolder.Path + @"\" + "schedule.txt";
         public static BindingList<CTime> BindingCTimeList = new BindingList<CTime>();
+        //khoi tao man hinh TimeLineListView
         public TimeLineListView()
         {
             InitializeComponent();
@@ -26,12 +27,14 @@ namespace ParentSideApp
             ResetBindingList();
         }
 
+        //them mot timeline
         private void AddTimeLine_OnClick(object sender, RoutedEventArgs e)
         {
-
+            //xin quyen truy cap mien gang bang phuong phap peterson
             enter_region();
             CTime newTime = new CTime();
             bool flag = true;
+            //kiem tra du lieu nhap vao
             if (InputFromHours.Text == "" || InputFromMinutes.Text == "" || InputToHours.Text == "" ||
                 InputToMinutes.Text == "") return;
             if (InputFromHours.Text != "")
@@ -132,7 +135,7 @@ namespace ParentSideApp
                     MessageBox.Show("Sum is not available");
                 }
             }
-
+            //kiem tra dung do ve thoi gian
             if (CTime.InTime(BindingCTimeList.ToList(), newTime))
             {
                 flag = false;
@@ -142,6 +145,8 @@ namespace ParentSideApp
             {
                 int i = 0;
                 ResetBindingList();
+                //sau khi xac nhan duoc, kiem tra dung do ve thoi gian them mot lan nua
+                //tranh truong hop ca hai phu huynh cung edit mot luc
                 if (CTime.InTime(BindingCTimeList.ToList(), newTime))
                 {
                     MessageBox.Show("There are another timeline in time with new timeline");
@@ -157,12 +162,15 @@ namespace ParentSideApp
                     i++;
                 }
                 BindingCTimeList.Insert(i, newTime);
+                //ghi du lieu moi xuong file schedule.txt
                 CTime.WriteDownTheSchedule(SchedulePath, BindingCTimeList.ToList());
             }
 
+            //roi khoi mien gang va cap nhat lai file peterson
             leave_region();
         }
 
+        //Tai lai list de phong truong hop nhieu parent thuc hien chinh sua chung luc nhung khong cap nhat kip
         private void ResetBindingList()
         {
             BindingCTimeList.Clear();
@@ -177,9 +185,12 @@ namespace ParentSideApp
 
         private void editBtnOnclick(object sender, RoutedEventArgs e)
         {
+            //xin vao mien gang
             enter_region();
             int index = TimeLineList.SelectedIndex;
             ResetBindingList();
+
+            //kiem tra truong hop tai khoan 1 edit nhung tai khoan 2 cung luc do dax xoa timeline ma tai khoan 1 muon edit
             if (index >= BindingCTimeList.Count)
             {
                 MessageBox.Show("This item don't exist");
@@ -192,12 +203,14 @@ namespace ParentSideApp
             EditTimeLineView editView = new EditTimeLineView(index);
             if (editView.ShowDialog() == true)
             {
+                //neu edit duoc thi cap nhat lai du lieu trong file schedule.txt
                 BindingCTimeList[index] = EditTimeLineView.EditedCTime;
                 BindingCTimeList.ResetBindings();
                 CTime.WriteDownTheSchedule(SchedulePath, BindingCTimeList.ToList());
                 leave_region();
             }
         }
+        //xin quyen truy cap mien gang bang phuong phap peterson
         private void enter_region()
         {
             int other = 1 - MainWindow.UserAccount;
@@ -229,7 +242,7 @@ namespace ParentSideApp
                 if (interesting2[2] != otherTurn || interesting2[other] != "1") break;
             }
         }
-
+        //thoat mien gang, cap nhat lai cac thong so theo quy tac peterson
         private void leave_region()
         {
             string text = File.ReadAllText(PetersonPath);

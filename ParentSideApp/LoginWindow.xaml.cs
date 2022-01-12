@@ -17,6 +17,7 @@ namespace ParentSideApp
 
         private void LoginBtn_OnClick(object sender, RoutedEventArgs e)
         {
+            //Kiem tra tai khoan mat khau
             if ((usernameTextBox.Text == "parent1" && PasswordTextBox.Password == "321") || (usernameTextBox.Text == "parent2" && PasswordTextBox.Password == "345"))
             {
                 if (usernameTextBox.Text == "parent1")
@@ -40,6 +41,7 @@ namespace ParentSideApp
 
         private void LoginWindow_OnClosing(object sender, CancelEventArgs e)
         {
+            //Neu dung tai khoan mat khau thi dong cua so login
             if (Flag == false) System.Windows.Application.Current.Shutdown();
         }
     }
