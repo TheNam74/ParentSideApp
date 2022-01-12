@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -146,6 +145,7 @@ namespace ParentSideApp
                 if (CTime.InTime(BindingCTimeList.ToList(), newTime))
                 {
                     MessageBox.Show("There are another timeline in time with new timeline");
+                    leave_region();
                     return;
                 }
                 foreach (var item in BindingCTimeList)
@@ -179,6 +179,16 @@ namespace ParentSideApp
         {
             enter_region();
             int index = TimeLineList.SelectedIndex;
+            ResetBindingList();
+            if (index >= BindingCTimeList.Count)
+            {
+                MessageBox.Show("This item don't exist");
+                ResetBindingList();
+                BindingCTimeList.ResetBindings();
+                leave_region();
+                return;
+            }
+            ResetBindingList();
             EditTimeLineView editView = new EditTimeLineView(index);
             if (editView.ShowDialog() == true)
             {
@@ -225,6 +235,7 @@ namespace ParentSideApp
             string text = File.ReadAllText(PetersonPath);
             string[] interesting = text.Split(' ');
             interesting[MainWindow.UserAccount] = "0";
+
             string writeDown = String.Join(" ", interesting);
             File.WriteAllText(PetersonPath, writeDown);
         }
@@ -240,7 +251,6 @@ namespace ParentSideApp
             enter_region();
             int index = TimeLineList.SelectedIndex;
             ResetBindingList();
-            Debug.WriteLine(index);
             BindingCTimeList.RemoveAt(index);
             CTime.WriteDownTheSchedule(SchedulePath, BindingCTimeList.ToList());
             leave_region();

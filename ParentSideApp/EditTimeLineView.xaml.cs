@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Windows;
 
@@ -13,7 +12,7 @@ namespace ParentSideApp
         public static CTime EditedCTime;
         public int SelectedIndex;
 
-        
+
         public EditTimeLineView(int selectedTime)
         {
             SelectedIndex = selectedTime;
